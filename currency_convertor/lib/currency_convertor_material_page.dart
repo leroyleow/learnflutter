@@ -15,8 +15,34 @@ class CurrencyConvertorMaterialPage extends StatefulWidget {
 //private class cos of _, everything inside extends State class is mutable [Can be change]
 class _CurrencyConvertorMaterialPageState
     extends State<CurrencyConvertorMaterialPage> {
-  double result = 0;
+  late double
+      result; //or double result = 0; else there will be an compilation error
   final TextEditingController textEditingController = TextEditingController();
+
+  void convert() {
+    // debug, release, profile
+    // if (kDebugMode) {
+    //   //print('button click');
+    //   print(textEditingController.text);
+    // }
+    setState(() {
+      result = double.parse(textEditingController.text) * 81;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    result = 0;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    textEditingController
+        .dispose(); //it is important to avoid memory leak, applies to all controller
+    super.dispose();
+  }
 
   //always keep build function as simple as possible. If phone has 120 hertz refresh rate, then
   //in 1 sec refresh 120 times. One build will have 8ms to finish drawing. If take more than
@@ -53,7 +79,7 @@ class _CurrencyConvertorMaterialPageState
               padding: const EdgeInsets.all(10.0),
               color: Colors.black,
               child: Text(
-                'SGD ${result.toString()}',
+                'SGD ${result != 0 ? result.toStringAsFixed(2) : result.toStringAsFixed(0)}',
                 style: const TextStyle(
                   fontSize: 45.0,
                   fontWeight: FontWeight.bold,
@@ -85,16 +111,7 @@ class _CurrencyConvertorMaterialPageState
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextButton(
-                onPressed: () {
-                  // debug, release, profile
-                  // if (kDebugMode) {
-                  //   //print('button click');
-                  //   print(textEditingController.text);
-                  // }
-                  setState(() {
-                    result = double.parse(textEditingController.text) * 81;
-                  });
-                },
+                onPressed: convert,
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.black),
                     foregroundColor: MaterialStatePropertyAll(Colors.white),
@@ -107,7 +124,13 @@ class _CurrencyConvertorMaterialPageState
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    textEditingController.value =
+                        const TextEditingValue(text: '');
+                    result = 0;
+                  });
+                },
                 style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.black38),
                   foregroundColor: MaterialStatePropertyAll(Colors.white),
