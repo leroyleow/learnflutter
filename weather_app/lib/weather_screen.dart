@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app/additional_info_widget.dart';
+import 'package:http/http.dart' as http;
+import 'package:weather_app/secrets.dart';
 
 import 'hourly_forecast_widget.dart';
 
@@ -14,6 +17,33 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
+  late double temp;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentWeather();
+  }
+
+  //build function should be make least expensive. Async is expensive so avoid call in build function.
+  Future getCurrentWeather() async {
+    try {
+      String cityName = 'London,uk';
+      final response = await http.get(
+        Uri.parse(
+            'https://api.openweathermap.org/data/2.5/forecast?q=$cityName&APPID=$openWeatherAPIKey'),
+      );
+      final data = jsonDecode(response.body);
+      if (data['cod'] != '200') {
+        throw 'An unexpected error occurred';
+      }
+
+      temp = (data['list'][0]['main']['temp']);
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
