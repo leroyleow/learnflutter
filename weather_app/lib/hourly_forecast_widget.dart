@@ -29,19 +29,21 @@ class HourlyForecastCard extends StatelessWidget {
               hourtime,
               style: GoogleFonts.robotoCondensed(
                   fontSize: 14, fontWeight: FontWeight.w800),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(
               height: 4,
             ),
             Icon(
               houricon,
-              size: 36,
+              size: 26,
             ),
             const SizedBox(
-              height: 4,
+              height: 12,
             ),
             Text(
-              '$hourtemp°K',
+              '$hourtemp°C',
               style: GoogleFonts.robotoCondensed(
                 fontSize: 10,
               ),

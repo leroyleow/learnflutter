@@ -39,6 +39,10 @@ dependencies:
   google_fonts: ^5.1.0
   # Get weather api with http
   http: ^1.1.0
+  # Weather icons
+  dynamic_weather_icons: ^1.2.0
+  # Date Parsing and other things
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
