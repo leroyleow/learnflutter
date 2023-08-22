@@ -39,7 +39,7 @@ final cart = [
     'brand': 'Addidas',
     'title': 'Men\'s Running Shoes',
     'price': '104.52',
-    'sizes': [8, 9, 10, 11],
+    'size': 8,
     'imageUrl': 'assets/images/shoes_3.png',
   },
 ];
