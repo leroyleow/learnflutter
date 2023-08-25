@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app_flutter/providers/cart_provider.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Map<String, Object> product;
@@ -16,6 +18,35 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   void initState() {
     super.initState();
     selectedsize = 0;
+  }
+
+  void addToCart() {
+    //When use Provider.of(context) mean subscribes to it and listen, but here is not really listening, therefore set false
+    //listen should set to false, when use Provider.of(context) outside of build function, onPress is out of build function
+    //context is accessible thank to State class that expose get context
+    if (selectedsize != 0) {
+      Provider.of<CartProvider>(context, listen: false).addProduct({
+        'id': widget.product["id"],
+        'title': widget.product['title'],
+        'price': widget.product['price'],
+        'imageUrl': widget.product['imageUrl'],
+        'company': widget.product['company'],
+        'size': selectedsize
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${widget.product["title"]} added to cart"),
+        ),
+      );
+    } else {
+      //find nearest ScaffoldMessager
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please select a size"),
+        ),
+      );
+    }
   }
 
   @override
@@ -36,7 +67,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             const Spacer(),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Image.asset(widget.product['imageUrl'] as String),
+              child: Image.asset(
+                widget.product['imageUrl'] as String,
+                height: 250,
+              ),
             ),
             const Spacer(
               flex: 2,
@@ -94,14 +128,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         Icons.shopping_cart,
                         color: Colors.black,
                       ),
-                      onPressed: () {},
+                      onPressed: addToCart,
                       label: const Text(
                         'Add To Cart',
                         style: TextStyle(color: Colors.black, fontSize: 18),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        minimumSize: const Size(double.infinity, 50),
+                        //minimumSize: const Size(double.infinity, 50), //for chrome and mobile
+                        fixedSize: const Size(350, 50),
                       ),
                     ),
                   )

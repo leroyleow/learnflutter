@@ -33,13 +33,13 @@ final products = [
   }
 ];
 
-final cart = [
-  {
-    'id': 3,
-    'brand': 'Addidas',
-    'title': 'Men\'s Running Shoes',
-    'price': '104.52',
-    'size': 8,
-    'imageUrl': 'assets/images/shoes_3.png',
-  },
-];
+// final cart = [
+//   {
+//     'id': 3,
+//     'brand': 'Addidas',
+//     'title': 'Men\'s Running Shoes',
+//     'price': '104.52',
+//     'size': 8,
+//     'imageUrl': 'assets/images/shoes_3.png',
+//   },
+// ];
