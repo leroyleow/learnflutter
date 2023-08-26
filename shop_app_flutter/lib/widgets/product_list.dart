@@ -22,8 +22,9 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    
+    //final size = MediaQuery.of(context).size; //this method will be call if deviceaspectratio change, cos affected sized
+    final size = MediaQuery.sizeOf(context); //same as above but only listen to size change only, not other things so that build is not call unnecessary.
+
     const outlineInputBorder = OutlineInputBorder(
       borderSide: BorderSide(
         color: Color.fromRGBO(225, 225, 225, 1),
@@ -100,35 +101,69 @@ class _ProductListState extends State<ProductList> {
                 }),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: products.length,
-              itemBuilder: (BuildContext context, int index) {
-                final product = products[index];
+            child: size.width > 650
+                ? GridView.builder(
+                    itemCount: products.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 2,
+                    ),
+                    itemBuilder: (context, index) {
+                      final product = products[index];
 
-                return GestureDetector(
-                  onTap: () {
-                    //Route either MaterialPageRoute, CupertinoPageRoute, or extends from PageRouteBuilder
-                    //pushReplacement method is used for login screen so to avoid user to go back login.
-                    //half-screen dialog, alert dialog
-                    //go to the nearest NavigatorState
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) {
-                        //The page to return to
-                        return ProductDetailPage(product: product);
-                      }),
-                    );
-                  },
-                  child: ProductCard(
-                    title: product['title'] as String,
-                    price: product['price'] as String,
-                    image: product['imageUrl'] as String,
-                    backgroundcolor: (index.isEven)
-                        ? const Color.fromRGBO(216, 240, 253, 1)
-                        : const Color.fromRGBO(245, 247, 249, 1),
+                      return GestureDetector(
+                        onTap: () {
+                          //Route either MaterialPageRoute, CupertinoPageRoute, or extends from PageRouteBuilder
+                          //pushReplacement method is used for login screen so to avoid user to go back login.
+                          //half-screen dialog, alert dialog
+                          //go to the nearest NavigatorState
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) {
+                              //The page to return to
+                              return ProductDetailPage(product: product);
+                            }),
+                          );
+                        },
+                        child: ProductCard(
+                          title: product['title'] as String,
+                          price: product['price'] as String,
+                          image: product['imageUrl'] as String,
+                          backgroundcolor: (index.isEven)
+                              ? const Color.fromRGBO(216, 240, 253, 1)
+                              : const Color.fromRGBO(245, 247, 249, 1),
+                        ),
+                      );
+                    })
+                : ListView.builder(
+                    itemCount: products.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final product = products[index];
+
+                      return GestureDetector(
+                        onTap: () {
+                          //Route either MaterialPageRoute, CupertinoPageRoute, or extends from PageRouteBuilder
+                          //pushReplacement method is used for login screen so to avoid user to go back login.
+                          //half-screen dialog, alert dialog
+                          //go to the nearest NavigatorState
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) {
+                              //The page to return to
+                              return ProductDetailPage(product: product);
+                            }),
+                          );
+                        },
+                        child: ProductCard(
+                          title: product['title'] as String,
+                          price: product['price'] as String,
+                          image: product['imageUrl'] as String,
+                          backgroundcolor: (index.isEven)
+                              ? const Color.fromRGBO(216, 240, 253, 1)
+                              : const Color.fromRGBO(245, 247, 249, 1),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
         ],
       ),
