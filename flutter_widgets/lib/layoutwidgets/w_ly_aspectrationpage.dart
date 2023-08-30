@@ -10,8 +10,8 @@ class WLyAspectRationWidgetPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            AspectRatioWidget(ratio: '16 / 9'),
-            AspectRatioWidget(ratio: '3 / 2'),
+            AspectRatioWidget(ratio: 16 / 9),
+            AspectRatioWidget(ratio: 3 / 2),
           ],
         ),
       ),
@@ -21,14 +21,14 @@ class WLyAspectRationWidgetPage extends StatelessWidget {
 
 
 class AspectRatioWidget extends StatelessWidget {
-  final String ratio;
+  final double ratio;
 
   const AspectRatioWidget({super.key, required this.ratio});
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: double.parse(ratio),
+      aspectRatio: ratio,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.green,

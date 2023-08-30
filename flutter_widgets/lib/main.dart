@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widgets/layoutwidgets/w_ly_expandflexible.dart';
-import 'package:flutter_widgets/layoutwidgets/w_ly_fracitonalsizedbox.dart';
+import 'package:flutter_widgets/homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const WLyFractionallySizeBoxPage(), //WMediaQueryPage(),
+      home: const HomePage(),
     );
   }
 }
